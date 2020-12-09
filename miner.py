@@ -91,31 +91,34 @@ class Miner:
 
         #SCAN NORTH
         if (self.front == 1):
-            if (self.y == grid.n):
-                coordVal = "OUT OF BOUNDS"
-            else:
-                coordVal = grid.coords[self.x+1][self.y]
-
-        #SCAN EAST       
-        elif (self.front == 2):
-            if (self.x == grid.n):
-                coordVal = "OUT OF BOUNDS"
-            else:
-                coordVal = grid.coords[self.x][self.y+1]
-
-        #SCAN SOUTH
-        elif (self.front == 3):
-            if (self.y == 0):
-                coordVal = "OUT OF BOUNDS"
-            else:
-                coordVal = grid.coords[self.x-1][self.y]
-
-        #SCAN WEST
-        elif (self.front == 4):
             if (self.x == 0):
                 coordVal = "OUT OF BOUNDS"
             else:
+                coordVal = grid.coords[self.x-1][self.y]
+            print("NORTH")
+
+        #SCAN EAST       
+        elif (self.front == 2):
+            if (self.y == grid.n):
+                coordVal = "OUT OF BOUNDS"
+            else:
+                coordVal = grid.coords[self.x][self.y+1]
+            print("EAST")
+        #SCAN SOUTH
+        elif (self.front == 3):
+            if (self.x == grid.n):
+                coordVal = "OUT OF BOUNDS"
+            else:
+                coordVal = grid.coords[self.x+1][self.y]
+            print("SOUTH")
+        #SCAN WEST
+        elif (self.front == 4):
+            if (self.y == 0):
+                coordVal = "OUT OF BOUNDS"
+            else:
                 coordVal = grid.coords[self.x][self.y-1]
+            print("WEST")
+        #????
         if isinstance(coordVal, int):
             return 'B'
         return coordVal
