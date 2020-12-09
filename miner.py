@@ -13,7 +13,7 @@ class Grid:
         self.coords = [[None for x in range(0,n)] for x in range(0,n)]
         self.goldX = gold[0]-1
         self.goldY = gold[1]-1
-        self.coords[gold[0]-1][gold[1]-1] = 'G'
+        
         self.beacons = beacons
         self.pits = pits
 
@@ -30,11 +30,12 @@ class Grid:
 
             # check if pit is in the way of the beacon
             for pit in self.pits:
-                if (pit[0] == beacon[0] and abs(beacon[1] - pit[1]) <= distance): # if the pit is on the same row and within the distance between the beacon and the gold
+                # if the pit is on the same row and within the distance between the beacon and the gold
+                if (pit[0] == beacon[0] and abs(beacon[1] - pit[1]) <= distance): 
                     self.coords[beacon[0]-1][beacon[1]-1] = 0
                 elif (pit[1] == beacon[1] and abs(beacon[0] - pit[0]) <= distance): # same but column
                     self.coords[beacon[0]-1][beacon[1]-1] = 0
-                    
+        self.coords[gold[0]-1][gold[1]-1] = 'G'         
         
 class Miner:
     #note that north, east, south, west are used as NWSE
