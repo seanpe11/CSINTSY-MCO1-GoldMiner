@@ -146,12 +146,14 @@ class SmartMiner(Miner):
         self.scanned_pits = []
         self.scanned_beacons = []
         self.prev = []
+        super 
 
     def action(self, grid):
         #to remember which front did the beacon belong
         self.beaconFront = 0 
-
-        #loops to check all faces
+        
+        print(self.scan(grid))
+                
         for i in 4:
             #checks if the grid in front has not been traversed yet
             if (self.x,self.y) not in self.prev:
@@ -160,9 +162,7 @@ class SmartMiner(Miner):
                 
                 #Sets the face to where the beacon was found
                 if(self.beaconFront):
-                    self.front = self.beaconFront
-                
-                
+                    self.front = self.beaconFront                
 
                 
                     
