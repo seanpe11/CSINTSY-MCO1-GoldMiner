@@ -53,23 +53,23 @@ class Miner:
 
         #MOVE NORTH
         if self.front == 1: 
-            if (self.y != 0):
-                self.y -= 1
+            if (self.x != 0):
+                self.x -= 1
 
         #MOVE EAST
         elif self.front == 2: 
-            if (self.x != grid.n):
-                self.x += 1
+            if (self.y != (grid.n)-1):
+                self.y += 1
 
         #MOVE SOUTH
         elif self.front == 3:
-            if (self.y != grid.n):
-                self.y += 1
+            if (self.x != grid.n-1):
+                self.x += 1
 
         #MOVE WEST
         elif self.front == 4: 
-            if (self.x != 0):
-                self.x -= 1
+            if (self.y != 0):
+                self.y -= 1
 
         #has to be greater or equal to for n because index starts at 0
         if (self.y < 0 or self.y >= grid.n or self.x < 0 or self.x >= grid.n): 
@@ -95,33 +95,38 @@ class Miner:
                 coordVal = "OUT OF BOUNDS"
             else:
                 coordVal = grid.coords[self.x-1][self.y]
-            print("NORTH")
+            
 
         #SCAN EAST       
         elif (self.front == 2):
-            if (self.y == grid.n):
+            if (self.y == grid.n-1):
                 coordVal = "OUT OF BOUNDS"
             else:
                 coordVal = grid.coords[self.x][self.y+1]
-            print("EAST")
+            
         #SCAN SOUTH
         elif (self.front == 3):
-            if (self.x == grid.n):
+            if (self.x == grid.n-1):
                 coordVal = "OUT OF BOUNDS"
             else:
                 coordVal = grid.coords[self.x+1][self.y]
-            print("SOUTH")
+            
         #SCAN WEST
         elif (self.front == 4):
             if (self.y == 0):
                 coordVal = "OUT OF BOUNDS"
             else:
                 coordVal = grid.coords[self.x][self.y-1]
-            print("WEST")
+           
         #????
         if isinstance(coordVal, int):
             return 'B'
         return coordVal
+
+    #RETURN CURRENT GRID INFORMATION
+    def curGrid(self, grid):
+        return grid.coords[self.x][self.y]
+
 
 
 class RandomMiner(Miner):
@@ -144,5 +149,5 @@ class SmartMiner(Miner):
     def action(self, grid):
         self.scan(grid[self.x][self.y])
         self.rotate()
-        pass
+        
 
