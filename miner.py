@@ -1,6 +1,12 @@
 import random
 
+
+
 class Grid:
+    #param n SIZE OF GRID
+    #param gold LOCATION OF GOLD (x,y)
+    #param beacons ARRAY TUPLE COORDS OF BEACONS [(x,y),(x,y)]
+    #param pits ARRAY TUPLE COORDS OF PITS      [(x,y),(x,y)]
     def __init__(self, n, gold, beacons, pits):
         # index starts at 1,1 for beacons and pits
         self.n = n
@@ -41,48 +47,70 @@ class Miner:
         self.scanCtr = 0
         self.moveCtr = 0
 
-    def move(self, grid): #param n 
-        self.moveCtr +=1
-        if self.front == 1: #north
+    #param grid whole grid object
+    def move(self, grid):
+        self.moveCtr += 1
+
+        #MOVE NORTH
+        if self.front == 1: 
             if (self.y != 0):
                 self.y -= 1
-        elif self.front == 2: #east
+
+        #MOVE EAST
+        elif self.front == 2: 
             if (self.x != grid.n):
                 self.x += 1
-        elif self.front == 3: #south
+
+        #MOVE SOUTH
+        elif self.front == 3:
             if (self.y != grid.n):
                 self.y += 1
-        elif self.front == 4: #west
+
+        #MOVE WEST
+        elif self.front == 4: 
             if (self.x != 0):
                 self.x -= 1
-        if (self.y < 0 or self.y >= grid.n or self.x < 0 or self.x >= grid.n): #has to be greater or equal to for n because index starts at 0
+
+        #has to be greater or equal to for n because index starts at 0
+        if (self.y < 0 or self.y >= grid.n or self.x < 0 or self.x >= grid.n): 
             return False
         return True
 
+    #ROTATE FUNCTION
     def rotate(self):
-        self.rotateCtr+=1
+        self.rotateCtr+= 1
+
         self.front += 1
         if (self.front == 5):
             self.front = 1
 
+    #SCANS THE ONE GRID AHEAD OF THE MINER
     def scan(self, grid):
         self.scanCtr += 1
         coordVal = 'NULL'
+
+        #SCAN NORTH
         if (self.front == 1):
             if (self.x == grid.n):
                 coordVal = "OUT OF BOUNDS"
             else:
                 coordVal = grid.coords[self.x+1][self.y]
+
+        #SCAN EAST       
         elif (self.front == 2):
             if (self.y == grid.n):
                 coordVal = "OUT OF BOUNDS"
             else:
                 coordVal = grid.coords[self.x][self.y+1]
+
+        #SCAN SOUTH
         elif (self.front == 3):
             if (self.x == 0):
                 coordVal = "OUT OF BOUNDS"
             else:
                 coordVal = grid.coords[self.x-1][self.y]
+
+        #SCAN WEST
         elif (self.front == 4):
             if (self.y == 0):
                 coordVal = "OUT OF BOUNDS"
