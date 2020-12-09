@@ -18,7 +18,7 @@ class Grid:
         self.pits = pits
 
         for pit in pits:
-            self.coords[pit[0]-1][pit[1]-1] = 'B'
+            self.coords[pit[0]-1][pit[1]-1] = 'P'
 
         for beacon in self.beacons:
             distance = 0
@@ -53,23 +53,23 @@ class Miner:
 
         #MOVE NORTH
         if self.front == 1: 
-            if (self.x != 0):
-                self.x -= 1
+            if (self.y != 0):
+                self.y -= 1
 
         #MOVE EAST
         elif self.front == 2: 
-            if (self.y != (grid.n)-1):
-                self.y += 1
+            if (self.x != (grid.n)-1):
+                self.x += 1
 
         #MOVE SOUTH
         elif self.front == 3:
-            if (self.x != grid.n-1):
-                self.x += 1
+            if (self.y != grid.n-1):
+                self.y += 1
 
         #MOVE WEST
         elif self.front == 4: 
-            if (self.y != 0):
-                self.y -= 1
+            if (self.x != 0):
+                self.x -= 1
 
         #has to be greater or equal to for n because index starts at 0
         if (self.y < 0 or self.y >= grid.n or self.x < 0 or self.x >= grid.n): 
@@ -91,41 +91,42 @@ class Miner:
 
         #SCAN NORTH
         if (self.front == 1):
-            if (self.x == 0):
-                coordVal = "OUT OF BOUNDS"
+            if (self.y == 0):
+                coordVal = 'NULL'
             else:
-                coordVal = grid.coords[self.x-1][self.y]
+                coordVal = grid.coords[self.y-1][self.x]
             
 
         #SCAN EAST       
         elif (self.front == 2):
-            if (self.y == grid.n-1):
-                coordVal = "OUT OF BOUNDS"
+            if (self.x == grid.n-1):
+                coordVal = 'NULL'
             else:
-                coordVal = grid.coords[self.x][self.y+1]
+                for i in grid.coords:
+                    coordVal = grid.coords[self.y][self.x+1]
             
         #SCAN SOUTH
         elif (self.front == 3):
-            if (self.x == grid.n-1):
-                coordVal = "OUT OF BOUNDS"
+            if (self.y == grid.n-1):
+                coordVal = 'NULL'
             else:
-                coordVal = grid.coords[self.x+1][self.y]
+                coordVal = grid.coords[self.y+1][self.x]
             
         #SCAN WEST
         elif (self.front == 4):
-            if (self.y == 0):
-                coordVal = "OUT OF BOUNDS"
+            if (self.x == 0):
+                coordVal = 'NULL'
             else:
-                coordVal = grid.coords[self.x][self.y-1]
+                coordVal = grid.coords[self.y][self.x-1]
            
         #????
         if isinstance(coordVal, int):
             return 'B'
         return coordVal
-
+    
     #RETURN CURRENT GRID INFORMATION
     def curGrid(self, grid):
-        return grid.coords[self.x][self.y]
+        return grid.coords[self.y][self.x]
 
 
 
@@ -147,7 +148,29 @@ class SmartMiner(Miner):
         self.prev = []
 
     def action(self, grid):
-        self.scan(grid[self.x][self.y])
+        #to remember which front did the beacon belong
+        self.beaconFront = 0 
+
+        #loops to check all faces
+        for i in 4:
+            #checks if the grid in front has not been traversed yet
+            if (self.x,self.y) not in self.prev:
+                if(self.scan(grid[self.y][self.x]) == 'B'):
+                    self.beaconFace = self.front
+                
+                #Sets the face to where the beacon was found
+                if(self.beaconFront):
+                    self.front = self.beaconFront
+                
+                
+
+                
+                    
+                
+
+            
+
+        
         self.rotate()
         
 
